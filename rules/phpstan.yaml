@@ -1,0 +1,41 @@
+configuration:
+  -
+    id: phpstan.level
+    message: 'PHPStan configuration field {select} in {file} must {expectation}. {fix}'
+    file: phpstan.neon
+    format: neon
+    select: /parameters/level
+    level: required
+    assert:
+      equals: max
+  -
+    id: phpstan.strict-rules
+    message: 'PHPStan configuration field {select} in {file} must {expectation}. {fix}'
+    file: phpstan.neon
+    format: neon
+    select: /includes
+    level: required
+    assert:
+      contains: phpstan/phpstan-strict-rules/rules.neon
+  -
+    id: phpstan.rules
+    message: 'PHPStan configuration field {select} in {file} must {expectation}. {fix}'
+    file: phpstan.neon
+    format: neon
+    select: /includes
+    level: required
+    assert:
+      contains_any:
+        - k-kinzal/phpstan-guard-rules/rules.neon
+        - rules.neon
+  -
+    id: phpstan.extension
+    message: 'PHPStan configuration field {select} in {file} must {expectation}. {fix}'
+    file: phpstan.neon
+    format: neon
+    select: /includes
+    level: required
+    assert:
+      contains_any:
+        - k-kinzal/phpstan-ai-formatter/extension.neon
+        - extension.neon

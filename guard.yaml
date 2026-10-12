@@ -1,0 +1,31 @@
+# Project policy. Required rules fail; recommendations warn.
+version: 1
+imports:
+  - rules/metrics.yaml
+  - rules/structure.yaml
+  - rules/phpstan.yaml
+  - rules/phpstan-guard-rules.yaml
+  - rules/phpunit9.yaml
+  - rules/phpunit10.yaml
+  - rules/phpunit11.yaml
+  - rules/phpunit12.yaml
+  - rules/phpunit13.yaml
+  - rules/doctest9.yaml
+  - rules/doctest10.yaml
+  - rules/doctest11.yaml
+  - rules/doctest12.yaml
+  - rules/doctest13.yaml
+  - rules/php-cs-fixer.yaml
+  - rules/phpcs.yaml
+  - rules/deptrac.yaml
+  - rules/infection.yaml
+  - rules/composer.yaml
+  - rules/docgen.yaml
+  - rules/readme-md.yaml
+metrics:
+  source:
+    - src
+  exclude: []
+documentation:
+  scan:
+    - '*.md'

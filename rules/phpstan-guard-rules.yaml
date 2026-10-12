@@ -1,0 +1,10 @@
+configuration:
+  -
+    id: phpstan.all-rules
+    message: 'PHPStan configuration field {select} in {file} must {expectation}. {fix}'
+    file: phpstan.neon
+    format: neon
+    select: /parameters/toolkit/allRules
+    level: required
+    assert:
+      equals: true

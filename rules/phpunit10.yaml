@@ -1,0 +1,226 @@
+configuration:
+  -
+    id: phpunit10.beStrictAboutChangesToGlobalState
+    message: 'PHPUnit configuration field {select} in {file} must {expectation}. {fix}'
+    file: phpunit10.xml.dist
+    format: xml
+    select: /phpunit/@beStrictAboutChangesToGlobalState
+    level: required
+    assert:
+      equals: 'true'
+  -
+    id: phpunit10.beStrictAboutOutputDuringTests
+    message: 'PHPUnit configuration field {select} in {file} must {expectation}. {fix}'
+    file: phpunit10.xml.dist
+    format: xml
+    select: /phpunit/@beStrictAboutOutputDuringTests
+    level: required
+    assert:
+      equals: 'true'
+  -
+    id: phpunit10.beStrictAboutTestsThatDoNotTestAnything
+    message: 'PHPUnit configuration field {select} in {file} must {expectation}. {fix}'
+    file: phpunit10.xml.dist
+    format: xml
+    select: /phpunit/@beStrictAboutTestsThatDoNotTestAnything
+    level: required
+    assert:
+      equals: 'true'
+  -
+    id: phpunit10.enforceTimeLimit
+    message: 'PHPUnit configuration field {select} in {file} must {expectation}. {fix}'
+    file: phpunit10.xml.dist
+    format: xml
+    select: /phpunit/@enforceTimeLimit
+    level: required
+    assert:
+      equals: 'true'
+  -
+    id: phpunit10.timeoutForSmallTests
+    message: 'PHPUnit configuration field {select} in {file} must {expectation}. {fix}'
+    file: phpunit10.xml.dist
+    format: xml
+    select: /phpunit/@timeoutForSmallTests
+    level: required
+    assert:
+      equals: '1'
+  -
+    id: phpunit10.timeoutForMediumTests
+    message: 'PHPUnit configuration field {select} in {file} must {expectation}. {fix}'
+    file: phpunit10.xml.dist
+    format: xml
+    select: /phpunit/@timeoutForMediumTests
+    level: required
+    assert:
+      equals: '10'
+  -
+    id: phpunit10.timeoutForLargeTests
+    message: 'PHPUnit configuration field {select} in {file} must {expectation}. {fix}'
+    file: phpunit10.xml.dist
+    format: xml
+    select: /phpunit/@timeoutForLargeTests
+    level: required
+    assert:
+      equals: '60'
+  -
+    id: phpunit10.executionOrder
+    message: 'PHPUnit configuration field {select} in {file} must {expectation}. {fix}'
+    file: phpunit10.xml.dist
+    format: xml
+    select: /phpunit/@executionOrder
+    level: required
+    assert:
+      equals: 'depends,random'
+  -
+    id: phpunit10.requireCoverageMetadata
+    message: 'PHPUnit configuration field {select} in {file} must {expectation}. {fix}'
+    file: phpunit10.xml.dist
+    format: xml
+    select: /phpunit/@requireCoverageMetadata
+    level: required
+    assert:
+      equals: 'true'
+  -
+    id: phpunit10.beStrictAboutCoverageMetadata
+    message: 'PHPUnit configuration field {select} in {file} must {expectation}. {fix}'
+    file: phpunit10.xml.dist
+    format: xml
+    select: /phpunit/@beStrictAboutCoverageMetadata
+    level: required
+    assert:
+      equals: 'true'
+  -
+    id: phpunit10.failOnAllIssues
+    message: 'PHPUnit configuration field {select} in {file} must {expectation}. {fix}'
+    file: phpunit10.xml.dist
+    format: xml
+    select: /phpunit/@failOnAllIssues
+    level: required
+    assert:
+      equals: 'true'
+  -
+    id: phpunit10.displayDetailsOnAllIssues
+    message: 'PHPUnit configuration field {select} in {file} must {expectation}. {fix}'
+    file: phpunit10.xml.dist
+    format: xml
+    select: /phpunit/@displayDetailsOnAllIssues
+    level: required
+    assert:
+      equals: 'true'
+  -
+    id: phpunit10.reporter
+    message: 'PHPUnit configuration field {select} in {file} must {expectation}. {fix}'
+    file: phpunit10.xml.dist
+    format: xml
+    select: '/phpunit/extensions/bootstrap[@class="Toolkit\PhpUnit\TestReporter\AiTestReporterExtension"]/@class'
+    level: required
+    assert:
+      equals: 'Toolkit\PhpUnit\TestReporter\AiTestReporterExtension'
+  -
+    id: phpunit10.restrictDeprecations
+    message: 'PHPUnit configuration field {select} in {file} must {expectation}. {fix}'
+    file: phpunit10.xml.dist
+    format: xml
+    select: /phpunit/source/@restrictDeprecations
+    level: required
+    assert:
+      equals: 'true'
+  -
+    id: phpunit10.restrictNotices
+    message: 'PHPUnit configuration field {select} in {file} must {expectation}. {fix}'
+    file: phpunit10.xml.dist
+    format: xml
+    select: /phpunit/source/@restrictNotices
+    level: required
+    assert:
+      equals: 'true'
+  -
+    id: phpunit10.restrictWarnings
+    message: 'PHPUnit configuration field {select} in {file} must {expectation}. {fix}'
+    file: phpunit10.xml.dist
+    format: xml
+    select: /phpunit/source/@restrictWarnings
+    level: required
+    assert:
+      equals: 'true'
+  -
+    id: phpunit10.ignoreSuppressionOfDeprecations
+    message: 'PHPUnit configuration field {select} in {file} must {expectation}. {fix}'
+    file: phpunit10.xml.dist
+    format: xml
+    select: /phpunit/source/@ignoreSuppressionOfDeprecations
+    level: required
+    assert:
+      equals: 'true'
+  -
+    id: phpunit10.ignoreSuppressionOfPhpDeprecations
+    message: 'PHPUnit configuration field {select} in {file} must {expectation}. {fix}'
+    file: phpunit10.xml.dist
+    format: xml
+    select: /phpunit/source/@ignoreSuppressionOfPhpDeprecations
+    level: required
+    assert:
+      equals: 'true'
+  -
+    id: phpunit10.ignoreSuppressionOfErrors
+    message: 'PHPUnit configuration field {select} in {file} must {expectation}. {fix}'
+    file: phpunit10.xml.dist
+    format: xml
+    select: /phpunit/source/@ignoreSuppressionOfErrors
+    level: required
+    assert:
+      equals: 'true'
+  -
+    id: phpunit10.ignoreSuppressionOfNotices
+    message: 'PHPUnit configuration field {select} in {file} must {expectation}. {fix}'
+    file: phpunit10.xml.dist
+    format: xml
+    select: /phpunit/source/@ignoreSuppressionOfNotices
+    level: required
+    assert:
+      equals: 'true'
+  -
+    id: phpunit10.ignoreSuppressionOfPhpNotices
+    message: 'PHPUnit configuration field {select} in {file} must {expectation}. {fix}'
+    file: phpunit10.xml.dist
+    format: xml
+    select: /phpunit/source/@ignoreSuppressionOfPhpNotices
+    level: required
+    assert:
+      equals: 'true'
+  -
+    id: phpunit10.ignoreSuppressionOfWarnings
+    message: 'PHPUnit configuration field {select} in {file} must {expectation}. {fix}'
+    file: phpunit10.xml.dist
+    format: xml
+    select: /phpunit/source/@ignoreSuppressionOfWarnings
+    level: required
+    assert:
+      equals: 'true'
+  -
+    id: phpunit10.ignoreSuppressionOfPhpWarnings
+    message: 'PHPUnit configuration field {select} in {file} must {expectation}. {fix}'
+    file: phpunit10.xml.dist
+    format: xml
+    select: /phpunit/source/@ignoreSuppressionOfPhpWarnings
+    level: required
+    assert:
+      equals: 'true'
+  -
+    id: phpunit10.includeUncoveredFiles
+    message: 'PHPUnit configuration field {select} in {file} must {expectation}. {fix}'
+    file: phpunit10.xml.dist
+    format: xml
+    select: /phpunit/coverage/@includeUncoveredFiles
+    level: required
+    assert:
+      equals: 'true'
+  -
+    id: phpunit10.disableCodeCoverageIgnore
+    message: 'PHPUnit configuration field {select} in {file} must {expectation}. {fix}'
+    file: phpunit10.xml.dist
+    format: xml
+    select: /phpunit/coverage/@disableCodeCoverageIgnore
+    level: required
+    assert:
+      equals: 'true'

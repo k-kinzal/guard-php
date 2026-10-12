@@ -1,0 +1,19 @@
+configuration:
+  -
+    id: docgen.script
+    message: 'Configuration field {select} in {file} must {expectation}. Add a docgen command to the scripts object, for example "docgen": "docgen".'
+    file: composer.json
+    format: json
+    select: /scripts/docgen
+    level: required
+    assert:
+      present: true
+  -
+    id: docgen.description
+    message: 'Configuration field {select} in {file} must {expectation}. Add a description for the docgen script under scripts-descriptions, explaining that it regenerates API documentation.'
+    file: composer.json
+    format: json
+    select: /scripts-descriptions/docgen
+    level: required
+    assert:
+      present: true

@@ -1,0 +1,13 @@
+# Guard behavior fixtures
+
+`scenarios.json` describes complete project inputs and command sequences. `expected.json` records the original implementation at commit `e521e4e2bf808ff304535792d5a1ee5bf81b0a8b`, before the Collect/Policy/Report refactor. Every command records its exit code, complete application output, and every resulting project file's bytes. The file inventory is sorted by filename as strings, independently of PHP array-key comparison changes. Temporary project and package paths in command output use placeholders.
+
+The reference capture used PHP 8.5 and Symfony YAML 8.1. The `expected-yaml5.json` and `expected-yaml6.json` overrides were captured from that same original implementation using the PHP 8.0 and PHP 8.1 lock files. The `expected-yaml7.json` override used the original implementation on PHP 8.5 with the locked Symfony YAML 7 component. The `expected-yaml8.0.json` override was captured from the original implementation with Symfony YAML 8.0.15 from the PHP 8.4 lock file. Those serializers spell an empty YAML map differently; the test selects the matching original output rather than normalizing file bytes. Minor-version overrides take precedence over major-version overrides.
+
+The scenarios cover all policies together, configuration formats, required and recommended findings, dry runs, repeated repairs, conflicts, malformed inputs, error precedence, imports, initial setup, legacy YAML migration, Markdown discovery, numeric path patterns, equivalent root spellings, literal discovery prefixes, and YAML aliases. Treat these as compatibility expectations; do not regenerate them from the refactored implementation to resolve a failure.
+
+The `init-readme` and `migrate` scenarios include `docs/.gitkeep` to preserve their original generated policies after automatic `disable-doc` selection was added. That fixture file is also included in their expected file inventories. Projects without `docs/` and the resulting directory violations are covered by `PresetSelectorTest` and `ApplicationTest`.
+
+The `args` scenario changed on purpose when the guard CLI moved to Symfony Console. Its `--help` case was removed because the help text depends on the installed Symfony Console version; `ApplicationTest` covers it instead. Its command-line errors now carry the Symfony Console message for an unknown command and a format error that names the rejected value.
+
+The `php` and `php-literal` expectations were updated when configuration repairs became available for every supported format. They now exercise literal returned arrays and PHP-CS-Fixer setters through check, dry run, and applied repairs. The returned-array case selects `/value` directly. All other original behavior expectations remain unchanged.

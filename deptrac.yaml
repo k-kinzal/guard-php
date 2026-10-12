@@ -1,0 +1,55 @@
+deptrac:
+  paths:
+    - ./src
+  layers:
+    - name: Diagnostic
+      collectors:
+        - type: directory
+          value: 'src/Diagnostic/.*'
+    - name: Structure
+      collectors:
+        - type: directory
+          value: 'src/Structure/.*'
+    - name: Input
+      collectors:
+        - type: directory
+          value: 'src/Input/.*'
+    - name: Collect
+      collectors:
+        - type: directory
+          value: 'src/Collect/.*'
+    - name: Policy
+      collectors:
+        - type: directory
+          value: 'src/Policy/.*'
+    - name: Repair
+      collectors:
+        - type: directory
+          value: 'src/Repair/.*'
+    - name: Config
+      collectors:
+        - type: directory
+          value: 'src/Config/.*'
+    - name: Execution
+      collectors:
+        - type: directory
+          value: 'src/Execution/.*'
+    - name: Reporting
+      collectors:
+        - type: directory
+          value: 'src/Reporting/.*'
+    - name: Cli
+      collectors:
+        - type: directory
+          value: 'src/Cli/.*'
+  ruleset:
+    Diagnostic: []
+    Structure: [Diagnostic]
+    Input: [Diagnostic, Structure]
+    Collect: [Diagnostic, Structure, Input]
+    Policy: [Diagnostic, Structure, Input]
+    Repair: [Diagnostic, Policy]
+    Config: [Diagnostic, Structure, Input, Policy]
+    Execution: [Diagnostic, Structure, Input, Collect, Policy, Repair, Config]
+    Reporting: [Diagnostic, Policy, Config]
+    Cli: [Diagnostic, Policy, Repair, Config, Execution, Reporting]

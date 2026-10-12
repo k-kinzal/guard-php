@@ -1,0 +1,867 @@
+[
+  {
+    "name": "all-policies",
+    "files": {
+      "src/Example.php": "<?php\nclass Example {\n public function run($a) { if ($a) { return 1; } return 0; }\n}\n",
+      "src/bad.txt": "keep",
+      "README.md": "# Wrong\n\n### Details\n",
+      "docs/extra.md": "# Extra\n",
+      "app.json": "{\"count\":0,\"mode\":\"old\",\"keep\":true}",
+      "guard.yaml": "version: 1\nmetrics:\n  source: [src]\n  profiles:\n    standard:\n      limits:\n        file: {lines: 1, ncloc: 1}\n        class: {lines: 1}\n        method: {lines: 1, cyclomatic_complexity: 1}\n  default: standard\nstructure:\n  paths: [src]\n  directories:\n    - {path: 'src', allow: ['*.php'], require: [Required.php], max_files: 1}\ndocumentation:\n  files:\n    README.md: {headings: ['# Expected', '## Details']}\n    MISSING.md: {headings: ['# Missing']}\n  scan: ['**/*.md']\nconfiguration:\n  - {id: count, file: app.json, select: /count, assert: {min: 1}, repair: 2}\n  - {id: mode, file: app.json, select: /mode, level: recommended, assert: {equals: new}}\n"
+    },
+    "commands": [
+      [
+        "check",
+        "--format=text"
+      ],
+      [
+        "check",
+        "--format=json"
+      ],
+      [
+        "fix",
+        "--dry-run",
+        "--format=text"
+      ],
+      [
+        "fix",
+        "--format=text"
+      ],
+      [
+        "fix",
+        "--format=text"
+      ],
+      [
+        "check",
+        "--format=json"
+      ]
+    ]
+  },
+  {
+    "name": "json",
+    "files": {
+      "app.json": "{\"value\":0,\"keep\":true}",
+      "guard.yaml": "version: 1\nconfiguration:\n  - {id: value, file: app.json, format: json, select: /value, assert: {equals: 1}}\n"
+    },
+    "commands": [
+      [
+        "check",
+        "--format=text"
+      ],
+      [
+        "check",
+        "--format=json"
+      ],
+      [
+        "fix",
+        "--dry-run",
+        "--format=text"
+      ],
+      [
+        "fix",
+        "--format=text"
+      ],
+      [
+        "fix",
+        "--format=text"
+      ],
+      [
+        "check",
+        "--format=json"
+      ]
+    ]
+  },
+  {
+    "name": "json5",
+    "files": {
+      "app.json5": "{value: 0, keep: true,}",
+      "guard.yaml": "version: 1\nconfiguration:\n  - {id: value, file: app.json5, format: json5, select: /value, assert: {equals: 1}}\n"
+    },
+    "commands": [
+      [
+        "check",
+        "--format=text"
+      ],
+      [
+        "check",
+        "--format=json"
+      ],
+      [
+        "fix",
+        "--dry-run",
+        "--format=text"
+      ],
+      [
+        "fix",
+        "--format=text"
+      ],
+      [
+        "fix",
+        "--format=text"
+      ],
+      [
+        "check",
+        "--format=json"
+      ]
+    ]
+  },
+  {
+    "name": "yaml",
+    "files": {
+      "app.yaml": "value: 0\nkeep: true\n",
+      "guard.yaml": "version: 1\nconfiguration:\n  - {id: value, file: app.yaml, format: yaml, select: /value, assert: {equals: 1}}\n"
+    },
+    "commands": [
+      [
+        "check",
+        "--format=text"
+      ],
+      [
+        "check",
+        "--format=json"
+      ],
+      [
+        "fix",
+        "--dry-run",
+        "--format=text"
+      ],
+      [
+        "fix",
+        "--format=text"
+      ],
+      [
+        "fix",
+        "--format=text"
+      ],
+      [
+        "check",
+        "--format=json"
+      ]
+    ]
+  },
+  {
+    "name": "neon",
+    "files": {
+      "app.neon": "value: 0\nkeep: true\n",
+      "guard.yaml": "version: 1\nconfiguration:\n  - {id: value, file: app.neon, format: neon, select: /value, assert: {equals: 1}}\n"
+    },
+    "commands": [
+      [
+        "check",
+        "--format=text"
+      ],
+      [
+        "check",
+        "--format=json"
+      ],
+      [
+        "fix",
+        "--dry-run",
+        "--format=text"
+      ],
+      [
+        "fix",
+        "--format=text"
+      ],
+      [
+        "fix",
+        "--format=text"
+      ],
+      [
+        "check",
+        "--format=json"
+      ]
+    ]
+  },
+  {
+    "name": "toml",
+    "files": {
+      "app.toml": "value = 0\nkeep = true\n",
+      "guard.yaml": "version: 1\nconfiguration:\n  - {id: value, file: app.toml, format: toml, select: /value, assert: {equals: 1}}\n"
+    },
+    "commands": [
+      [
+        "check",
+        "--format=text"
+      ],
+      [
+        "check",
+        "--format=json"
+      ],
+      [
+        "fix",
+        "--dry-run",
+        "--format=text"
+      ],
+      [
+        "fix",
+        "--format=text"
+      ],
+      [
+        "fix",
+        "--format=text"
+      ],
+      [
+        "check",
+        "--format=json"
+      ]
+    ]
+  },
+  {
+    "name": "xml",
+    "files": {
+      "app.xml": "<app value=\"0\"><keep/></app>",
+      "guard.yaml": "version: 1\nconfiguration:\n  - {id: value, file: app.xml, format: xml, select: /app/@value, assert: {equals: '1'}}\n"
+    },
+    "commands": [
+      [
+        "check",
+        "--format=text"
+      ],
+      [
+        "check",
+        "--format=json"
+      ],
+      [
+        "fix",
+        "--dry-run",
+        "--format=text"
+      ],
+      [
+        "fix",
+        "--format=text"
+      ],
+      [
+        "fix",
+        "--format=text"
+      ],
+      [
+        "check",
+        "--format=json"
+      ]
+    ]
+  },
+  {
+    "name": "php",
+    "files": {
+      "settings.php": "<?php\nreturn ['value' => 0, 'keep' => true];\n",
+      "guard.yaml": "version: 1\nconfiguration:\n  - {id: value, file: settings.php, format: php, select: /value, assert: {equals: 1}}\n"
+    },
+    "commands": [
+      [
+        "check",
+        "--format=text"
+      ],
+      [
+        "check",
+        "--format=json"
+      ],
+      [
+        "fix",
+        "--dry-run",
+        "--format=text"
+      ],
+      [
+        "fix",
+        "--format=text"
+      ],
+      [
+        "fix",
+        "--format=text"
+      ],
+      [
+        "check",
+        "--format=json"
+      ]
+    ]
+  },
+  {
+    "name": "conflict",
+    "files": {
+      "a.json": "{\"value\":0}",
+      "b.json": "{\"value\":0}",
+      "guard.yaml": "version: 1\nconfiguration:\n  - {id: first, file: a.json, select: /value, assert: {equals: 1}}\n  - {id: second, file: b.json, select: /value, assert: {equals: 1}}\n  - {id: conflict, file: b.json, select: /value, assert: {equals: 2}}\n"
+    },
+    "commands": [
+      [
+        "check",
+        "--format=text"
+      ],
+      [
+        "check",
+        "--format=json"
+      ],
+      [
+        "fix",
+        "--dry-run",
+        "--format=text"
+      ],
+      [
+        "fix",
+        "--format=text"
+      ],
+      [
+        "fix",
+        "--format=text"
+      ],
+      [
+        "check",
+        "--format=json"
+      ]
+    ]
+  },
+  {
+    "name": "recommended",
+    "files": {
+      "app.json": "{\"value\":0}",
+      "guard.yaml": "version: 1\nconfiguration:\n  - {id: value, file: app.json, select: /value, level: recommended, assert: {min: 1}}\n"
+    },
+    "commands": [
+      [
+        "check",
+        "--format=text"
+      ],
+      [
+        "check",
+        "--format=json"
+      ],
+      [
+        "fix",
+        "--dry-run",
+        "--format=text"
+      ],
+      [
+        "fix",
+        "--format=text"
+      ],
+      [
+        "fix",
+        "--format=text"
+      ],
+      [
+        "check",
+        "--format=json"
+      ]
+    ]
+  },
+  {
+    "name": "malformed",
+    "files": {
+      "a.json": "{\"value\":0}",
+      "b.json": "{",
+      "guard.yaml": "version: 1\nconfiguration:\n  - {id: first, file: a.json, select: /value, assert: {equals: 1}}\n  - {id: broken, file: b.json, select: /value, assert: {equals: 1}}\n"
+    },
+    "commands": [
+      [
+        "check",
+        "--format=text"
+      ],
+      [
+        "check",
+        "--format=json"
+      ],
+      [
+        "fix",
+        "--dry-run",
+        "--format=text"
+      ],
+      [
+        "fix",
+        "--format=text"
+      ],
+      [
+        "fix",
+        "--format=text"
+      ],
+      [
+        "check",
+        "--format=json"
+      ]
+    ]
+  },
+  {
+    "name": "format-conflict",
+    "files": {
+      "app.json": "{\"value\":0}",
+      "guard.yaml": "version: 1\nconfiguration:\n  - {id: first, file: app.json, format: json, select: /value, assert: {equals: 1}}\n  - {id: second, file: app.json, format: yaml, select: /value, assert: {equals: 1}}\n"
+    },
+    "commands": [
+      [
+        "check",
+        "--format=text"
+      ],
+      [
+        "check",
+        "--format=json"
+      ],
+      [
+        "fix",
+        "--dry-run",
+        "--format=text"
+      ],
+      [
+        "fix",
+        "--format=text"
+      ],
+      [
+        "fix",
+        "--format=text"
+      ],
+      [
+        "check",
+        "--format=json"
+      ]
+    ]
+  },
+  {
+    "name": "self-target",
+    "files": {
+      "guard.yaml": "version: 1\nconfiguration:\n  - {id: self, file: guard.yaml, select: /version, assert: {equals: 1}}\n"
+    },
+    "commands": [
+      [
+        "check",
+        "--format=text"
+      ],
+      [
+        "check",
+        "--format=json"
+      ],
+      [
+        "fix",
+        "--dry-run",
+        "--format=text"
+      ],
+      [
+        "fix",
+        "--format=text"
+      ],
+      [
+        "fix",
+        "--format=text"
+      ],
+      [
+        "check",
+        "--format=json"
+      ]
+    ]
+  },
+  {
+    "name": "docs-exclusion",
+    "files": {
+      "README.md": "# Main\n\n```md\n# Ignored\n```\n\nDetails\n-------\n",
+      "docs/skip.md": "# Skip\n",
+      "docs/extra.md": "# Extra\n",
+      "guard.yaml": "version: 1\ndocumentation:\n  files:\n    README.md: {headings: ['# Main', '## Details']}\n  scan: ['**/*.md', 'docs/*.md']\n  exclude: ['docs/skip.md']\n"
+    },
+    "commands": [
+      [
+        "check",
+        "--format=text"
+      ],
+      [
+        "check",
+        "--format=json"
+      ],
+      [
+        "fix",
+        "--dry-run",
+        "--format=text"
+      ],
+      [
+        "fix",
+        "--format=text"
+      ],
+      [
+        "fix",
+        "--format=text"
+      ],
+      [
+        "check",
+        "--format=json"
+      ]
+    ]
+  },
+  {
+    "name": "tree-overlap",
+    "files": {
+      "src/one/A.php": "<?php",
+      "src/one/a_bad.txt": "x",
+      "guard.yaml": "version: 1\nstructure:\n  paths: [src]\n  directories:\n    - {path: '**', allow: ['*.php'], max_depth: 1}\n    - {path: 'src/**', require: [index.php], file_case: pascal}\n"
+    },
+    "commands": [
+      [
+        "check",
+        "--format=text"
+      ],
+      [
+        "check",
+        "--format=json"
+      ],
+      [
+        "fix",
+        "--dry-run",
+        "--format=text"
+      ],
+      [
+        "fix",
+        "--format=text"
+      ],
+      [
+        "fix",
+        "--format=text"
+      ],
+      [
+        "check",
+        "--format=json"
+      ]
+    ]
+  },
+  {
+    "name": "empty-metrics",
+    "files": {
+      "guard.yaml": "version: 1\nmetrics:\n  source: [src]\n  profiles: {standard: {limits: {file: {lines: 1}}}}\n  default: standard\n"
+    },
+    "commands": [
+      [
+        "check",
+        "--format=text"
+      ],
+      [
+        "check",
+        "--format=json"
+      ],
+      [
+        "fix",
+        "--dry-run",
+        "--format=text"
+      ],
+      [
+        "fix",
+        "--format=text"
+      ],
+      [
+        "fix",
+        "--format=text"
+      ],
+      [
+        "check",
+        "--format=json"
+      ]
+    ]
+  },
+  {
+    "name": "imports",
+    "files": {
+      "src/A.php": "<?php\n\n\n",
+      "base.yaml": "metrics:\n  source: [src]\n  profiles: {standard: {limits: {file: {lines: 1}}}}\n  default: standard\n",
+      "guard.yaml": "version: 1\nimports: [base.yaml]\nmetrics:\n  profiles: {standard: {limits: {file: {lines: 10}}}}\n"
+    },
+    "commands": [
+      [
+        "check",
+        "--format=text"
+      ],
+      [
+        "check",
+        "--format=json"
+      ],
+      [
+        "fix",
+        "--dry-run",
+        "--format=text"
+      ],
+      [
+        "fix",
+        "--format=text"
+      ],
+      [
+        "fix",
+        "--format=text"
+      ],
+      [
+        "check",
+        "--format=json"
+      ]
+    ]
+  },
+  {
+    "name": "args",
+    "files": {
+      "guard.yaml": "version: 1\n"
+    },
+    "commands": [
+      [
+        "bad"
+      ],
+      [
+        "check",
+        "--format=bad"
+      ],
+      [
+        "fix",
+        "--dry-run",
+        "--format=json"
+      ],
+      [
+        "check",
+        "--config=missing.yaml",
+        "--format=text"
+      ]
+    ]
+  },
+  {
+    "name": "init",
+    "files": {
+      "README.md": "# Example\n\n## Use\n"
+    },
+    "commands": [
+      [
+        "init",
+        "--import="
+      ],
+      [
+        "check",
+        "--format=text"
+      ],
+      [
+        "init",
+        "--import="
+      ]
+    ]
+  },
+  {
+    "name": "init-readme",
+    "files": {
+      "README.md": "# Project\n\n## Usage\n",
+      "docs/.gitkeep": "",
+      "vendor/k-kinzal/guard-php/rules/readme-md.yaml": "documentation:\n  files:\n    README.md:\n      outlines:\n        cli:\n          - '# *'\n          - '## Requirements'\n          - '## Getting Started'\n          -\n            heading: '## *'\n            optional: true\n            repeat: true\n          - '## License'\n        library:\n          - '# *'\n          - '## Requirements'\n          - '## Installation'\n          - '## Usage'\n          -\n            heading: '## *'\n            optional: true\n            repeat: true\n          - '## License'\n        monorepo:\n          - '# *'\n          - '## Packages'\n          -\n            heading: '## Related Projects'\n            optional: true\n          - '## License'\n      badges:\n        -\n          name: docs\n          label: docs\n          image: 'https://img.shields.io/badge/docs-*'\n          optional: true\n        -\n          name: workflow\n          image: 'https://github.com/*/actions/workflows/*/badge.svg*'\n          optional: true\n          repeat: true\n        -\n          name: Packagist\n          label: Packagist\n          image: 'https://img.shields.io/packagist/v/*'\n          optional: true\n        -\n          name: PHP\n          label: PHP\n          image: 'https://img.shields.io/badge/php-*'\n        -\n          name: License\n          label: License\n          image: 'https://img.shields.io/badge/license-*'\n        -\n          name: DeepWiki\n          label: Ask DeepWiki\n          image: 'https://deepwiki.com/badge.svg'\n          optional: true\n"
+    },
+    "commands": [
+      [
+        "init"
+      ],
+      [
+        "check",
+        "--format=text"
+      ],
+      [
+        "init"
+      ]
+    ]
+  },
+  {
+    "name": "migrate",
+    "files": {
+      "README.md": "# Project\n",
+      "docs/.gitkeep": "",
+      "src/A.php": "<?php\n",
+      "loc.yaml": "scan: {roots: [src], exclude: []}\npolicies: {standard: {limits: {file: {lines: 10}}}}\napply: {default: standard, rules: []}\n",
+      "tree.yaml": "paths: [src]\nrules: [{path: 'src/**', allow: ['*.php'], max_files: 4}]\n",
+      "doc-guard.yaml": "documents: {README.md: {headings: ['# Project']}}\nscan: ['*.md']\n",
+      "vendor/k-kinzal/guard-php/rules/readme-md.yaml": "documentation:\n  files:\n    README.md:\n      outlines:\n        cli:\n          - '# *'\n          - '## Requirements'\n          - '## Getting Started'\n          -\n            heading: '## *'\n            optional: true\n            repeat: true\n          - '## License'\n        library:\n          - '# *'\n          - '## Requirements'\n          - '## Installation'\n          - '## Usage'\n          -\n            heading: '## *'\n            optional: true\n            repeat: true\n          - '## License'\n        monorepo:\n          - '# *'\n          - '## Packages'\n          -\n            heading: '## Related Projects'\n            optional: true\n          - '## License'\n      badges:\n        -\n          name: docs\n          label: docs\n          image: 'https://img.shields.io/badge/docs-*'\n          optional: true\n        -\n          name: workflow\n          image: 'https://github.com/*/actions/workflows/*/badge.svg*'\n          optional: true\n          repeat: true\n        -\n          name: Packagist\n          label: Packagist\n          image: 'https://img.shields.io/packagist/v/*'\n          optional: true\n        -\n          name: PHP\n          label: PHP\n          image: 'https://img.shields.io/badge/php-*'\n        -\n          name: License\n          label: License\n          image: 'https://img.shields.io/badge/license-*'\n        -\n          name: DeepWiki\n          label: Ask DeepWiki\n          image: 'https://deepwiki.com/badge.svg'\n          optional: true\n"
+    },
+    "commands": [
+      [
+        "init"
+      ],
+      [
+        "check",
+        "--format=text"
+      ],
+      [
+        "check",
+        "--format=json"
+      ],
+      [
+        "fix",
+        "--format=text"
+      ]
+    ]
+  },
+  {
+    "name": "error-order-files",
+    "files": {
+      "a.json": "{\"mode\":0}",
+      "b.json": "{",
+      "guard.yaml": "version: 1\nconfiguration:\n  - {id: bad-selector, file: a.json, select: missing-slash, assert: {equals: 1}}\n  - {id: bad-json, file: b.json, select: /mode, assert: {equals: 1}}\n"
+    },
+    "commands": [
+      [
+        "check",
+        "--format=text"
+      ],
+      [
+        "check",
+        "--format=json"
+      ],
+      [
+        "fix",
+        "--dry-run",
+        "--format=text"
+      ],
+      [
+        "fix",
+        "--format=text"
+      ]
+    ]
+  },
+  {
+    "name": "error-order-source",
+    "files": {
+      "a.json": "{\"mode\":0}",
+      "guard.yaml": "version: 1\nmetrics:\n  source: [missing-src]\n  profiles: {standard: {limits: {file: {lines: 1}}}}\n  default: standard\nconfiguration:\n  - {id: bad-selector, file: a.json, select: missing-slash, assert: {equals: 1}}\n"
+    },
+    "commands": [
+      [
+        "check",
+        "--format=text"
+      ],
+      [
+        "check",
+        "--format=json"
+      ],
+      [
+        "fix",
+        "--dry-run",
+        "--format=text"
+      ],
+      [
+        "fix",
+        "--format=text"
+      ]
+    ]
+  },
+  {
+    "name": "yaml-object-list-types",
+    "files": {
+      "app.yaml": "# preserve when compliant\nvalue: 0\nmap: {}\nitems: []\nnothing: null\nlist: [{a: 1}, {b: true}]\n",
+      "guard.yaml": "version: 1\nconfiguration:\n  - {id: value, file: app.yaml, select: /value, assert: {equals: 1}}\n"
+    },
+    "commands": [
+      [
+        "check",
+        "--format=text"
+      ],
+      [
+        "check",
+        "--format=json"
+      ],
+      [
+        "fix",
+        "--dry-run",
+        "--format=text"
+      ],
+      [
+        "fix",
+        "--format=text"
+      ]
+    ]
+  },
+  {
+    "name": "php-literal",
+    "files": {
+      "fixer.php": "<?php\nreturn (new Config())->setRiskyAllowed(false)->setRules(['strict_comparison' => false]);\n",
+      "guard.yaml": "version: 1\nconfiguration:\n  - {id: risky, file: fixer.php, format: php, select: /riskyAllowed, assert: {equals: true}}\n  - {id: strict, file: fixer.php, format: php, select: /rules/strict_comparison, assert: {equals: true}}\n"
+    },
+    "commands": [
+      [
+        "check",
+        "--format=text"
+      ],
+      [
+        "check",
+        "--format=json"
+      ],
+      [
+        "fix",
+        "--dry-run",
+        "--format=text"
+      ],
+      [
+        "fix",
+        "--format=text"
+      ]
+    ]
+  },
+  {
+    "name": "numeric-discovery-pattern",
+    "files": {
+      "README.md": "# Project\n",
+      "123": "# Numeric name\n",
+      "guard.yaml": "version: 1\ndocumentation:\n  files: {README.md: {headings: ['# Project']}}\n  scan: ['123']\n"
+    },
+    "commands": [
+      [
+        "check",
+        "--format=text"
+      ],
+      [
+        "check",
+        "--format=json"
+      ]
+    ]
+  },
+  {
+    "name": "yaml-aliases",
+    "files": {
+      "app.yaml": "first: &alias {value: 0}\nsecond: *alias\n",
+      "guard.yaml": "version: 1\nconfiguration:\n  - {id: alias, file: app.yaml, select: /first/value, assert: {equals: 1}}\n"
+    },
+    "commands": [
+      [
+        "check",
+        "--format=text"
+      ],
+      [
+        "fix",
+        "--format=text"
+      ],
+      [
+        "check",
+        "--format=json"
+      ]
+    ]
+  },
+  {
+    "name": "root-spellings-and-literal-discovery",
+    "files": {
+      "src/A.php": "<?php\n\n\n",
+      "README.md": "# Root\n",
+      "docs/placeholder.txt": "placeholder",
+      "guard.yaml": "version: 1\nmetrics:\n  source: [src, ./src]\n  profiles:\n    standard: {limits: {file: {lines: 1}}}\n  default: standard\nstructure:\n  paths: [src, ./src]\n  directories: [{path: '**', deny: ['*.php']}]\ndocumentation:\n  files:\n    README.md: {headings: ['# Root']}\n  scan: [docs/../README.md]\n"
+    },
+    "commands": [
+      [
+        "check",
+        "--format=text"
+      ],
+      [
+        "check",
+        "--format=json"
+      ],
+      [
+        "fix",
+        "--dry-run",
+        "--format=text"
+      ]
+    ]
+  },
+  {
+    "name": "dot-root-source",
+    "files": {
+      "src/A.php": "<?php\n\n\n",
+      "guard.yaml": "version: 1\nmetrics:\n  source: ['./']\n  profiles:\n    standard: {limits: {file: {lines: 1}}}\n  default: standard\n"
+    },
+    "commands": [
+      [
+        "check",
+        "--format=text"
+      ],
+      [
+        "check",
+        "--format=json"
+      ]
+    ]
+  }
+]
