@@ -21,8 +21,14 @@ final class DocumentMerger
     public function merge(array $base, array $overlay): array
     {
         $merged = $base;
+        if (array_key_exists('benchmarks', $overlay)) {
+            $merged['benchmarks'] = $overlay['benchmarks'];
+        }
         if (array_key_exists('version', $overlay)) {
             $merged['version'] = $overlay['version'];
+        }
+        if (array_key_exists('test_dependencies', $overlay)) {
+            $merged['test_dependencies'] = $overlay['test_dependencies'];
         }
         $merged = $this->mergeSection($merged, $overlay, 'metrics');
         $merged = $this->mergeSection($merged, $overlay, 'structure');

@@ -37,6 +37,13 @@ final class RuleCatalog
         $configuration = (new ConfigurationLoader())->load($path);
         $data = (new ImportResolver())->resolve($path);
         $rules = $this->fields($data['configuration'] ?? []);
+        if (($data['benchmarks'] ?? false) === true) {
+            $rules = array_merge($rules, $this->benchmarks());
+        }
+        if (array_key_exists('test_dependencies', $data)) {
+            $dependencyRules = (new Reader\TestDependencyConfigReader())->read($data['test_dependencies']);
+            $rules[] = new RuleDescription('test-dependencies', implode(', ', array_keys($dependencyRules->files())), 'required', true, 'For each existing bench/, fuzz/, spec/, or tests/ directory, require its autoload-dev PSR-4 mapping and an independent Deptrac layer that can depend only on src/ production layers. Run guard fix to configure the boundaries.', ['directories' => $dependencyRules->directories()]);
+        }
         if (array_key_exists('metrics', $data)) {
             $rules = array_merge($rules, $this->metrics($data['metrics'], dirname($path)));
         }
@@ -93,6 +100,33 @@ final class RuleCatalog
     }
 
     /**
+     * Describes the constraints whose concrete commands depend on collected filenames.
+     * @return list<RuleDescription>
+     */
+    public function benchmarks(): array
+    {
+        $rules = [];
+        foreach ([
+            'autoload' => 'Map Bench\\ to bench/ in composer.json autoload-dev.psr-4. Run guard fix to repair the mapping.',
+            'script' => 'Set scripts.bench to phpbench run bench --bootstrap=vendor/autoload.php. Run guard fix to repair the command.',
+            'script.bench:*' => 'For multiple benchmark files, define bench:xxx for every XxxBench.php; use kebab-case, for example HttpClientBench.php becomes bench:http-client. Run guard fix to configure phpbench run bench/XxxBench.php --bootstrap=vendor/autoload.php.',
+        ] as $id => $message) {
+            $rules[] = new RuleDescription('phpbench.' . $id, 'composer.json', 'required', true, $message);
+        }
+        foreach ([
+            'empty' => 'Add bench/Bench.php with a PHPBench benchmark when bench/ has no files.',
+            'directory' => 'Move subdirectories outside bench/; keep benchmark PHP files directly in bench/.',
+            'extension' => 'Move non-PHP files outside bench/; only .php files are allowed.',
+            'filename' => 'Name the only file Bench.php, or name every file XxxBench.php with a non-empty PascalCase prefix when there are multiple files. Rename its class to match.',
+            'namespace' => 'Reference the PhpBench namespace in every benchmark PHP file, for example use PhpBench\\Attributes as Bench; and #[Bench\\Revs(1)]. Comments and strings do not count.',
+            'command_collision' => 'Rename benchmark files and their classes when their names produce the same kebab-case Composer command.',
+        ] as $id => $message) {
+            $rules[] = new RuleDescription('phpbench.' . $id, 'bench/', 'required', false, $message);
+        }
+        return $rules;
+    }
+
+    /**
      * @return list<RuleDescription>
      */
     public function metrics(mixed $value, string $root): array
@@ -135,7 +169,7 @@ final class RuleCatalog
         $data = (new Schema())->mapping($value, ['paths', 'exclude', 'directories'], 'structure');
         $rules = [];
         $ids = ['allow' => 'disallowed_file', 'deny' => 'denied_file', 'allow_dirs' => 'disallowed_dir', 'deny_dirs' => 'denied_dir',
-            'require' => 'missing_required_file', 'forbid_empty' => 'empty_directory'];
+            'require' => 'missing_required_file', 'require_dirs' => 'missing_required_dir', 'forbid_empty' => 'empty_directory'];
         $entries = $data['directories'] ?? [];
         if (!is_array($entries)) {
             return [];
@@ -145,7 +179,7 @@ final class RuleCatalog
                 continue;
             }
             foreach ($entry as $key => $constraint) {
-                if (!is_string($key) || $key === 'path' || $constraint === null || $constraint === false) {
+                if (!is_string($key) || $key === 'path' || $key === 'when_files' || $constraint === null || $constraint === false) {
                     continue;
                 }
                 $id = 'structure.' . ($ids[$key] ?? $key);
@@ -155,7 +189,10 @@ final class RuleCatalog
                     'required',
                     false,
                     (new RuleMessages())->forRule($id),
-                    [$key => $constraint, 'paths' => $data['paths'] ?? ['.'], 'exclude' => $data['exclude'] ?? []]
+                    array_merge(
+                        [$key => $constraint, 'paths' => $data['paths'] ?? ['.'], 'exclude' => $data['exclude'] ?? []],
+                        array_key_exists('when_files', $entry) ? ['when_files' => $entry['when_files']] : []
+                    )
                 );
             }
         }

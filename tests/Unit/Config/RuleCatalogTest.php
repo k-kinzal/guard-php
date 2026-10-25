@@ -122,6 +122,16 @@ use SplFileInfo;
 #[UsesClass(FieldMessage::class)]
 final class RuleCatalogTest extends TestCase
 {
+    public function testBenchmarksDescribesConfigurationRepairsAndSourceFindings(): void
+    {
+        $rules = (new RuleCatalog())->benchmarks();
+        self::assertCount(9, $rules);
+        self::assertSame('phpbench.autoload', $rules[0]->id);
+        self::assertTrue($rules[0]->fixable);
+        self::assertSame('phpbench.namespace', $rules[7]->id);
+        self::assertFalse($rules[7]->fixable);
+    }
+
     /**
      * @throws JsonException
      */
@@ -208,6 +218,21 @@ final class RuleCatalogTest extends TestCase
         $rules = (new RuleCatalog())->documentation(['files' => ['README.md' => ['headings' => []]], 'scan' => ['*.md']]);
         self::assertSame('documentation.missing_document', $rules[0]->id);
         self::assertSame('documentation.undeclared_document', $rules[count($rules) - 1]->id);
+    }
+
+    public function testStructureListsConditionsAsDetailsOfEachConstraint(): void
+    {
+        $rules = (new RuleCatalog())->structure(['directories' => [['path' => 'spec/**', 'when_files' => ['*.feature'], 'allow' => ['*.feature'], 'require_dirs' => ['Context']]]]);
+
+        self::assertCount(2, $rules);
+        self::assertSame('structure.disallowed_file', $rules[0]->id);
+        self::assertSame('structure.missing_required_dir', $rules[1]->id);
+        self::assertSame(['*.feature'], $rules[0]->details['when_files']);
+        self::assertSame(['*.feature'], $rules[1]->details['when_files']);
+        self::assertSame('spec/**', $rules[0]->target);
+        self::assertSame('spec/**', $rules[1]->target);
+        self::assertSame(['Context'], $rules[1]->details['require_dirs']);
+        self::assertStringContainsString('Create the named directory', $rules[1]->message);
     }
 
 }
